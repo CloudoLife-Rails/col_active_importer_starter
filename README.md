@@ -37,7 +37,7 @@ Suppose there is a ActiveRecord model `Article`:
 
 ```ruby
 class Article < ApplicationRecord
-  
+
 end
 ```
 and tabular data file `data/Articles.xlsx`
@@ -54,38 +54,38 @@ and tabular data file `data/Articles.xlsx`
 
 class ArticleImporter < ColActiveImporterStarter::BaseImporter
   imports Article
-  
+
   transactional
   module ColumnName
     Title = "Title"
     Body = "Body"
   end
-  
+
   column ColumnName::Title, :title
   column ColumnName::Body, :body
-  
+
   def handle_fetch_model
     params = {
       title: row[ColumnName::Title],
     }
-  
+
     model = Article.find_or_initialize_by(params)
-  
+
     model
   end
-  
+
   fetch_model do
     handle_fetch_model
   end
-  
+
   def handle_skip_rows_if?
     row[ColumnName::Title].blank?
   end
-  
+
   skip_rows_if do
     handle_skip_rows_if?
   end
-  
+
   # ArticleImporter.execute
   def self.execute(file = "#{Rails.root}/data/Articles.1.xlsx")
     params = {
@@ -95,7 +95,7 @@ class ArticleImporter < ColActiveImporterStarter::BaseImporter
     }
     import(file, params: params)
   end
-  
+
   private
 end
 ```
@@ -112,7 +112,7 @@ Or specify more arguments.
 params = {
   cache: {},
   file: "#{Rails.root}/data/Articles.1.xlsx",
-  result_index: 10,
+  result_index: 3,
 }
 
 ArticleImporter.import(file, params: params)
@@ -146,4 +146,10 @@ The gem is available as open source under the terms of the [MIT License - https:
 
 ## References
 
-[1] [continuum/active_importer: Define importers that load tabular data from spreadsheets or CSV files into any ActiveRecord-like ORM. - https://github.com/continuum/active_importer](https://github.com/continuum/active_importer)
+[1] [CloudoLife-Rails/col_active_importer_starter: col_active_importer_starter is a starter(or wrapper) to [active_importer. - https://github.com/CloudoLife-Rails/col_active_importer_starter](https://github.com/CloudoLife-Rails/col_active_importer_starter)
+
+[2] [col_active_importer_starter | RubyGems.org | your community gem host - https://rubygems.org/gems/col_active_importer_starter](https://rubygems.org/gems/col_active_importer_starter)
+
+[3] [continuum/active_importer: Define importers that load tabular data from spreadsheets or CSV files into any ActiveRecord-like ORM. - https://github.com/continuum/active_importer](https://github.com/continuum/active_importer)
+
+[4] [RubyGems.org | your community gem host - https://rubygems.org/](https://rubygems.org/)

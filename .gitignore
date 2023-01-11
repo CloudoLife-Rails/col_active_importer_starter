@@ -12,3 +12,5 @@
 /Gemfile.lock
 
 /init_git.sh
+/*.gem
+/.tool-versions
