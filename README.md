@@ -7,9 +7,10 @@ col_active_importer_starter is a starter(or wrapper) to [active_importer - https
 `col_active_importer_starter` makes full use of `active_importer` gem to import tabular data from spreadsheets or similar sources into Active Record models.
 
 - The best practices of `active_importer`, such as:
+  - [Custom parameters · continuum/active_importer Wiki - https://github.com/continuum/active_importer/wiki/Custom-parameters](https://github.com/continuum/active_importer/wiki/Custom-parameters)
   - [Events and callbacks - https://github.com/continuum/active_importer/wiki/Callbacks](https://github.com/continuum/active_importer/wiki/Callbacks).
 - Introduce a optional cache to retain data in the memory
-- Write out a file with the original data and more information for result
+- Use rubyXL to write out a file with the original data and more information for result
 
 ## Installation
 
@@ -103,7 +104,12 @@ end
 2. Import data from a file.
 
 ```ruby
-ArticleImporter.execute("#{Rails.root}/data/Articles.1.xlsx")
+ArticleImporter.import("#{Rails.root}/data/Articles.1.xlsx")
+
+# Or use ArticleImporter instance.
+# importer = ArticleImporter.new(file, {params: params(file)})
+# importer.import
+# puts importer.row_count
 ```
 
 Or specify more arguments.
@@ -115,8 +121,15 @@ params = {
   result_index: 3,
 }
 
-ArticleImporter.import(file, params: params)
+ArticleImporter.import(file, {params: params})
+
+# Or use ArticleImporter instance.
+# importer = ArticleImporter.new(file, {params: params(file)})
+# importer.import
+# puts importer.row_count
 ```
+
+For more examples to see [./test/dummy/test/importers/article_importer_test.rb](./test/dummy/test/importers/article_importer_test.rb).
 
 3. Then, check `tmp/importers` directory to find the result file.
 
@@ -124,6 +137,14 @@ ArticleImporter.import(file, params: params)
 |-----------------|-----------------|---|-----------|-----------------|
 | Article.1.title | Article.1.body  |   | 1         | success         |
 | Article.2.title | Article.2.body  |   | 2         | success         |
+
+## Testing
+
+Run `rails test` to execute all test cases in `test/dummy/test` directory.
+
+```shell
+rails test test/dummy/test
+```
 
 ## Inspire
 
@@ -152,4 +173,9 @@ The gem is available as open source under the terms of the [MIT License - https:
 
 [3] [continuum/active_importer: Define importers that load tabular data from spreadsheets or CSV files into any ActiveRecord-like ORM. - https://github.com/continuum/active_importer](https://github.com/continuum/active_importer)
 
-[4] [RubyGems.org | your community gem host - https://rubygems.org/](https://rubygems.org/)
+[4] [weshatheleopard/rubyXL: Ruby lib for reading/writing/modifying .xlsx and .xlsm files - https://github.com/weshatheleopard/rubyXL](https://github.com/weshatheleopard/rubyXL)
+
+[5] [rubyXL | RubyGems.org | your community gem host - https://rubygems.org/gems/rubyXL/](https://rubygems.org/gems/rubyXL/)
+
+[6] [RubyGems.org | your community gem host - https://rubygems.org/](https://rubygems.org/)
+

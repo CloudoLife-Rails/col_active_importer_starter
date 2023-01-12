@@ -40,7 +40,7 @@ class ArticleImporter < ColActiveImporterStarter::BaseImporter
     params = {
       cache: {},
       file: file,
-      result_index: 10,
+      result_index: 3,
     }
     import(file, params: params)
   end
